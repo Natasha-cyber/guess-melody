@@ -1,4 +1,5 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
 
 import NotFoundScreen from '../../pages/not-found-screen';
 import WelcomeScreen from '../../pages/welcome-screen';
@@ -17,7 +18,8 @@ type AppScreenProps = {
 
 function App({errorsCount}: AppScreenProps) {
     return (
-        <BrowserRouter>
+        <HelmetProvider>
+            <BrowserRouter>
             <Routes>
                 <Route path={AppRoute.Root} element={<WelcomeScreen errorsCount={errorsCount}/>}/>
                 <Route path={AppRoute.DevGenre} element={<GenreQuestionScreen/>}/>
@@ -35,6 +37,7 @@ function App({errorsCount}: AppScreenProps) {
                 <Route path="*" element={<NotFoundScreen/>}/>
             </Routes>
         </BrowserRouter>
+        </HelmetProvider>
     )
 }
 

@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
+import {Helmet} from 'react-helmet-async';
+
 import Logo from "../../components/logo";
 
 function NotFoundScreen() {
     return (
     <section className="game">
+        <Helmet>
+            <title>Угадай мелодию. Страница не найдена</title>
+        </Helmet>
         <header className="game__header">
             <Logo />
 

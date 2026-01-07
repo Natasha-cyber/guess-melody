@@ -7,7 +7,9 @@ import GameOverScreen from '../../pages/game-over-screen';
 import ArtistQuestionScreen from '../../pages/artist-question-screen';
 import GenreQuestionScreen from '../../pages/genre-question-screen';
 import WinScreen from '../../pages/win-screen';
-import {AppRoute} from '../../const';
+import PrivateRoute from '../private-route';
+
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 type AppScreenProps = {
     errorsCount: number;
@@ -18,11 +20,18 @@ function App({errorsCount}: AppScreenProps) {
         <BrowserRouter>
             <Routes>
                 <Route path={AppRoute.Root} element={<WelcomeScreen errorsCount={errorsCount}/>}/>
-                <Route path={AppRoute.Result} element={<WinScreen/>}/>
                 <Route path={AppRoute.DevGenre} element={<GenreQuestionScreen/>}/>
                 <Route path={AppRoute.DevArtist} element={<ArtistQuestionScreen/>}/>
                 <Route path={AppRoute.Lose} element={<GameOverScreen/>}/>
                 <Route path={AppRoute.Login} element={<AuthScreen/>}/>
+                <Route 
+                    path={AppRoute.Result} 
+                    element={
+                    <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+                        <WinScreen/>
+                    </PrivateRoute>
+                    }
+                    />
                 <Route path="*" element={<NotFoundScreen/>}/>
             </Routes>
         </BrowserRouter>

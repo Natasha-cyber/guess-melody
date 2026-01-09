@@ -11,18 +11,23 @@ import WinScreen from '../../pages/win-screen';
 import PrivateRoute from '../private-route';
 
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {Questions} from '../../types/question';
+import {QuestionGenre} from '../../types/question';
 
 type AppScreenProps = {
     errorsCount: number;
+    questions: Questions;
 }
 
-function App({errorsCount}: AppScreenProps) {
+function App({errorsCount, questions}: AppScreenProps) {
+    const [firstQuestion] = questions;
+
     return (
         <HelmetProvider>
             <BrowserRouter>
             <Routes>
                 <Route path={AppRoute.Root} element={<WelcomeScreen errorsCount={errorsCount}/>}/>
-                <Route path={AppRoute.DevGenre} element={<GenreQuestionScreen/>}/>
+                <Route path={AppRoute.DevGenre} element={<GenreQuestionScreen question={firstQuestion as QuestionGenre}/>}/>
                 <Route path={AppRoute.DevArtist} element={<ArtistQuestionScreen/>}/>
                 <Route path={AppRoute.Lose} element={<GameOverScreen/>}/>
                 <Route path={AppRoute.Login} element={<AuthScreen/>}/>

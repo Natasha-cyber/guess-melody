@@ -12,7 +12,7 @@ import PrivateRoute from '../private-route';
 
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {Questions} from '../../types/question';
-import {QuestionGenre} from '../../types/question';
+import {QuestionGenre, QuestionArtist} from '../../types/question';
 
 type AppScreenProps = {
     errorsCount: number;
@@ -20,7 +20,7 @@ type AppScreenProps = {
 }
 
 function App({errorsCount, questions}: AppScreenProps) {
-    const [firstQuestion] = questions;
+    const [firstQuestion, secondQuestion] = questions;
 
     return (
         <HelmetProvider>
@@ -37,7 +37,17 @@ function App({errorsCount, questions}: AppScreenProps) {
                         }}
                     />} 
                 />
-                <Route path={AppRoute.DevArtist} element={<ArtistQuestionScreen/>}/>
+                <Route 
+                    path={AppRoute.DevArtist} 
+                    element={
+                    <ArtistQuestionScreen
+                        question={secondQuestion as QuestionArtist}
+                        onAnswer={() => {
+                            throw new Error('Function \'onAnswer\' isn\'t implemented.');
+                        }}
+                    />
+                }
+                />
                 <Route path={AppRoute.Lose} element={<GameOverScreen/>}/>
                 <Route path={AppRoute.Login} element={<AuthScreen/>}/>
                 <Route 

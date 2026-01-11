@@ -27,7 +27,16 @@ function App({errorsCount, questions}: AppScreenProps) {
             <BrowserRouter>
             <Routes>
                 <Route path={AppRoute.Root} element={<WelcomeScreen errorsCount={errorsCount}/>}/>
-                <Route path={AppRoute.DevGenre} element={<GenreQuestionScreen question={firstQuestion as QuestionGenre}/>}/>
+                <Route 
+                    path={AppRoute.DevGenre} 
+                    element={
+                    <GenreQuestionScreen
+                        question={firstQuestion as QuestionGenre}
+                        onAnswer={() => {
+                            throw new Error('Function \'onAnswer\' isn\'t implemented.');
+                        }}
+                    />} 
+                />
                 <Route path={AppRoute.DevArtist} element={<ArtistQuestionScreen/>}/>
                 <Route path={AppRoute.Lose} element={<GameOverScreen/>}/>
                 <Route path={AppRoute.Login} element={<AuthScreen/>}/>

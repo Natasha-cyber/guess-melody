@@ -2,6 +2,7 @@ import {Helmet} from 'react-helmet-async';
 import {useState, ChangeEvent, FormEvent} from 'react';
 
 import Logo from '../../components/logo';
+import AudioPlayer from '../../components/audio-player';
 import {QuestionGenre, UserGenreQuestionAnswers} from '../../types/question';
 
 type GenreQuestionScreenProps = {
@@ -53,10 +54,10 @@ function GenreQuestionScreen({question, onAnswer}: GenreQuestionScreenProps) {
                   const keyValue = `${id}-${answer.src}`;
                   return (
                     <div key={keyValue} className="track">
-                      <button className="track__button track__button--play" type="button"></button>
-                      <div className="track__status">
-                        <audio src={answer.src}></audio>
-                      </div>
+                      <AudioPlayer 
+                        src={answer.src}
+                        autoPlay={id===0}
+                      />
                       <div className="game__answer">
                         <input
                             className="game__input visually-hidden" 

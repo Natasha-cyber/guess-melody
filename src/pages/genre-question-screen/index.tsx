@@ -2,19 +2,18 @@ import {Helmet} from 'react-helmet-async';
 import {useState, ChangeEvent, FormEvent} from 'react';
 
 import Logo from '../../components/logo';
-import AudioPlayer from '../../components/audio-player';
 import {QuestionGenre, UserGenreQuestionAnswers} from '../../types/question';
 
 type GenreQuestionScreenProps = {
   question: QuestionGenre;
   onAnswer: (question: QuestionGenre, answers: UserGenreQuestionAnswers) => void;
+  renderPlayer: (src: string, id: number) => JSX.Element
 }
 
-function GenreQuestionScreen({question, onAnswer}: GenreQuestionScreenProps) {
+function GenreQuestionScreen({question, onAnswer, renderPlayer}: GenreQuestionScreenProps) {
   const {answers, genre} = question;
 
   const [userAnswers, setUserAnswers] = useState([false, false, false, false]);
-
     return (
       <section className="game game--genre">
         <Helmet>
@@ -54,10 +53,7 @@ function GenreQuestionScreen({question, onAnswer}: GenreQuestionScreenProps) {
                   const keyValue = `${id}-${answer.src}`;
                   return (
                     <div key={keyValue} className="track">
-                      <AudioPlayer 
-                        src={answer.src}
-                        autoPlay={id===0}
-                      />
+                      {renderPlayer(answer.src, id)}
                       <div className="game__answer">
                         <input
                             className="game__input visually-hidden" 

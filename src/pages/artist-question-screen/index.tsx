@@ -2,15 +2,15 @@ import {ChangeEvent} from 'react';
 import {Helmet} from 'react-helmet-async';
 
 import Logo from '../../components/logo';
-import AudioPlayer from '../../components/audio-player';
 import {QuestionArtist, UserArtistQuestionAnswers} from '../../types/question';
 
 type ArtistQuestionScreenProps = {
   question: QuestionArtist;
   onAnswer: (question: QuestionArtist, answers: UserArtistQuestionAnswers) => void;
+  renderPlayer: (src: string, id: number) => JSX.Element;
 };
 
-function ArtistQuestionScreen({question, onAnswer}: ArtistQuestionScreenProps) {
+function ArtistQuestionScreen({question, onAnswer, renderPlayer}: ArtistQuestionScreenProps) {
   const {answers, song} = question;
 
     return (
@@ -42,10 +42,7 @@ function ArtistQuestionScreen({question, onAnswer}: ArtistQuestionScreenProps) {
           <h2 className="game__title">Кто исполняет эту песню?</h2>
           <div className="game__track">
             <div className="track">
-              <AudioPlayer 
-                src={song.src}
-                autoPlay
-              />
+              {renderPlayer(song.src, 0)}
             </div>
           </div>
 

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
+import { useElementListener } from '../../hooks/use-element-listener';
+
 type AudioPlayerProps = {
     isPlaying: boolean;
     src: string;
@@ -16,19 +18,7 @@ const AudioPlayer = ({isPlaying, src, onPlayButtonClick}: AudioPlayerProps) => {
         setIsLoaded(true);
     }
 
-    useEffect(() => {
-        const playerElement = audioRef.current;
-
-        if (!playerElement) {
-            return;
-        }
-
-        playerElement.addEventListener('loadeddata', handleDataLoaded);
-
-        return () => {
-            playerElement.removeEventListener('loadeddata', handleDataLoaded)
-        }
-    }, [])
+    useElementListener(audioRef, 'loadeddata', handleDataLoaded);
 
     useEffect(() => {
         const playerElement = audioRef.current;

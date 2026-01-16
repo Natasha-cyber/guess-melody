@@ -1,16 +1,21 @@
 import {Helmet} from 'react-helmet-async';
-import {useState, ChangeEvent, FormEvent} from 'react';
+import {useState, ChangeEvent, FormEvent, PropsWithChildren} from 'react';
 
 import Logo from '../../components/logo';
 import {QuestionGenre, UserGenreQuestionAnswers} from '../../types/question';
 
-type GenreQuestionScreenProps = {
+type GenreQuestionScreenProps = PropsWithChildren<{
   question: QuestionGenre;
   onAnswer: (question: QuestionGenre, answers: UserGenreQuestionAnswers) => void;
   renderPlayer: (src: string, id: number) => JSX.Element
-}
+}>;
 
-function GenreQuestionScreen({question, onAnswer, renderPlayer}: GenreQuestionScreenProps) {
+function GenreQuestionScreen({
+  question, 
+  onAnswer, 
+  renderPlayer,
+  children
+}: GenreQuestionScreenProps) {
   const {answers, genre} = question;
 
   const [userAnswers, setUserAnswers] = useState([false, false, false, false]);
@@ -31,12 +36,7 @@ function GenreQuestionScreen({question, onAnswer, renderPlayer}: GenreQuestionSc
                 style={{filter: 'url(#blur)', transform: 'rotate(-90deg) scaleY(-1)', transformOrigin: 'center'}}
             />
           </svg>
-
-          <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-          </div>
+          {children}
         </header>
 
         <section className="game__screen">

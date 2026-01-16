@@ -1,16 +1,21 @@
-import {ChangeEvent} from 'react';
+import {ChangeEvent, PropsWithChildren} from 'react';
 import {Helmet} from 'react-helmet-async';
 
 import Logo from '../../components/logo';
 import {QuestionArtist, UserArtistQuestionAnswers} from '../../types/question';
 
-type ArtistQuestionScreenProps = {
+type ArtistQuestionScreenProps = PropsWithChildren<{
   question: QuestionArtist;
   onAnswer: (question: QuestionArtist, answers: UserArtistQuestionAnswers) => void;
   renderPlayer: (src: string, id: number) => JSX.Element;
-};
+}>;
 
-function ArtistQuestionScreen({question, onAnswer, renderPlayer}: ArtistQuestionScreenProps) {
+function ArtistQuestionScreen({
+  question, 
+  onAnswer, 
+  renderPlayer,
+  children
+}: ArtistQuestionScreenProps) {
   const {answers, song} = question;
 
     return (
@@ -30,12 +35,7 @@ function ArtistQuestionScreen({question, onAnswer, renderPlayer}: ArtistQuestion
                 style={{filter: 'url(#blur)', transform: 'rotate(-90deg) scaleY(-1)', transformOrigin: 'center'}} 
             />
           </svg>
-
-          <div className="game__mistakes">
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-            <div className="wrong"></div>
-          </div>
+          {children}
         </header>
 
         <section className="game__screen">

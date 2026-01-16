@@ -1,29 +1,35 @@
 import {Navigate} from 'react-router-dom';
 
-import {QuestionArtist, QuestionGenre, Questions} from '../../types/question';
-import {AppRoute, GameType} from '../../const';
+import {Question, UserAnswer} from '../../types/question';
+import {AppRoute, GameType, MAX_MISTAKE_COUNT} from '../../const';
 import ArtistQuestionScreen from '../artist-question-screen';
 import GenreQuestionScreen from '../genre-question-screen';
 import withAudioPlayer from '../../hocs/with-audio-player';
 import { useAppDispath, useAppSelector } from '../../hooks';
-import { incStep } from '../../store/action';
+import { checkUserAnswer, incStep } from '../../store/action';
 import Mistakes from '../../components/mistakes';
 
 const ArtistQuestionScreenWrapped = withAudioPlayer(ArtistQuestionScreen);
 const GenreQuestionScreenWrapped = withAudioPlayer(GenreQuestionScreen);
 
-type GameScreenProps = {
-    questions: Questions;
-}
-
-const GameScreen = ({questions}: GameScreenProps) => {
+const GameScreen = () => {
     const step = useAppSelector((state) => state.step);
-    const question = questions[step];
     const dispatch = useAppDispath();
     const mistakes = useAppSelector((state) => state.mistakes);
+    const questions = useAppSelector((state) => state.questions);
+    const question = questions[step];
+
+    if (mistakes >= MAX_MISTAKE_COUNT) {
+        return <Navigate to={AppRoute.Lose}/>
+    }
 
     if (step >= questions.length || !question) {
         return <Navigate to={AppRoute.Root}/>
+    }
+
+    const handleUserAnswer = (questionItem: Question, userAnswer: UserAnswer) => {
+        dispatch(incStep());
+        dispatch(checkUserAnswer({question: questionItem, userAnswer}));
     }
 
     switch (question.type) {
@@ -31,8 +37,8 @@ const GameScreen = ({questions}: GameScreenProps) => {
             return (
                 <ArtistQuestionScreenWrapped 
                     key={step}
-                    question={question as QuestionArtist}
-                    onAnswer={() => dispatch(incStep())}
+                    question={question}
+                    onAnswer={handleUserAnswer}
                 >
                     <Mistakes count={mistakes}/>
                 </ArtistQuestionScreenWrapped>
@@ -41,8 +47,8 @@ const GameScreen = ({questions}: GameScreenProps) => {
             return (
                 <GenreQuestionScreenWrapped
                     key={step}
-                    question={question as QuestionGenre}
-                    onAnswer={() => dispatch(incStep())}
+                    question={question}
+                    onAnswer={handleUserAnswer}
                 >
                     <Mistakes count={mistakes}/>
                 </GenreQuestionScreenWrapped>

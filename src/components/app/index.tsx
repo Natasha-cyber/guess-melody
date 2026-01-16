@@ -9,20 +9,14 @@ import WinScreen from '../../pages/win-screen';
 import GameScreen from '../../pages/game-screen';
 import PrivateRoute from '../private-route';
 
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {Questions} from '../../types/question';
+import {AppRoute, AuthorizationStatus, MAX_MISTAKE_COUNT} from '../../const';
 
-type AppScreenProps = {
-    errorsCount: number;
-    questions: Questions;
-}
-
-function App({errorsCount, questions}: AppScreenProps) {
+function App() {
     return (
         <HelmetProvider>
             <BrowserRouter>
             <Routes>
-                <Route path={AppRoute.Root} element={<WelcomeScreen errorsCount={errorsCount}/>}/>
+                <Route path={AppRoute.Root} element={<WelcomeScreen errorsCount={MAX_MISTAKE_COUNT}/>}/>
                 <Route path={AppRoute.Lose} element={<GameOverScreen/>}/>
                 <Route path={AppRoute.Login} element={<AuthScreen/>}/>
                 <Route 
@@ -36,9 +30,7 @@ function App({errorsCount, questions}: AppScreenProps) {
                 <Route 
                     path={AppRoute.Game} 
                     element={
-                    <GameScreen 
-                        questions={questions}
-                    />
+                    <GameScreen/>
                     }
                 />
                 <Route path="*" element={<NotFoundScreen/>}/>

@@ -2,11 +2,11 @@ import {ChangeEvent, PropsWithChildren} from 'react';
 import {Helmet} from 'react-helmet-async';
 
 import Logo from '../../components/logo';
-import {QuestionArtist, UserArtistQuestionAnswers} from '../../types/question';
+import {QuestionArtist, UserArtistQuestionAnswer} from '../../types/question';
 
 type ArtistQuestionScreenProps = PropsWithChildren<{
   question: QuestionArtist;
-  onAnswer: (question: QuestionArtist, answers: UserArtistQuestionAnswers) => void;
+  onAnswer: (question: QuestionArtist, answers: UserArtistQuestionAnswer) => void;
   renderPlayer: (src: string, id: number) => JSX.Element;
 }>;
 
